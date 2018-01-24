@@ -1,0 +1,236 @@
+.nav-wrapper, .nav-content {
+    padding-left: 15px;
+}
+nav .input-field {
+    height: 15%;
+}
+#globe { 
+    font-size: 40px;
+}
+nav .brand-logo i, nav .brand-logo [class^="mdi-"], nav .brand-logo [class*="mdi-"], nav .brand-logo i.material-icons {
+    margin-right: 3px;
+}
+body {
+/*  margin-left: 100px;
+    margin-right: 100px;*/
+    background-image: url(../images/globe.jpg);
+}
+#search {
+    height: 40px;
+    display: inline-block;
+    position: relative;
+    left: 30px;
+}
+#searchIcon {
+    font-size: 30px;
+    position: relative;
+    left: -10px;
+    top: -10px;
+}
+#search.autocomplete {
+    position: relative;
+    left: 30px;
+    width: 95%;
+}
+#searchHeader {
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    left: 30px;
+    margin-bottom: -20px;
+}
+.photoCarousel {
+    margin-top: -10px;
+    width: 50%;
+}
+#weatherTitle {
+    font-size: 28px;
+    font-weight: bold;
+/*  padding-right: 10px;*/
+    padding-bottom: 10px;
+    border-bottom: 1px solid white;
+/*  margin-bottom: -10px;*/
+/*  margin-top: -15px;*/
+}
+#weatherCond {
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: -10px;
+}
+#weatherTemp {
+    display: inline-block;
+    margin-bottom: -10px;
+}
+#middle-panel {
+    
+    padding-bottom: 10px;
+}
+#map {
+    margin-top: -10px;
+    position: relative;
+    left: 10px;
+}
+.photoContainer {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.carousel-item {
+    position: relative;
+    width: 70%;
+}
+.photoText {
+    position: absolute;
+    top: 25px;
+    left: 0px;
+    color: white;
+    background-color: black;
+    padding: 20px;  
+}
+
+#buttonForward {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    width: 46px;
+    height: 46px;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+#buttonBack {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    width: 46px;
+    height: 46px;
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+.dropdown-content {
+    font-size: 14px !important;
+}
+a.dropdown-button {
+    width: 200px;
+}
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+    width: 75% !important;
+}
+h5 {
+    color: #ffb74d;
+    font-size: 18px;
+    line-height: 80%;
+}
+h6 {
+    color: white;
+    line-height: 80%;
+    padding-left: 15px;
+}
+.card {
+    overflow: scroll;
+    height: 583px;
+}
+.cityInfo {
+    padding: 2.5px;
+    font-weight: normal;
+}
+#newPlaceTitle {
+    color: #ffb74d;
+    line-height: 80%;
+}
+#newPlaceOpen,
+#newPlaceRating {
+    color: white;
+    line-height: 80%;
+    padding-left: 15px;
+}
+.indicators{
+    visibility: hidden;
+}
+@media screen and (max-width: 1500px) {
+    #buttonForward {
+        position: relative;
+        right: 100px;
+    }
+    #buttonBack {
+        position: relative;
+        left: 100px;
+    }
+}
+@media screen and (max-width: 1400px) {
+    #buttonForward {
+        position: relative;
+        right: 75px;
+    }
+    #buttonBack {
+        position: relative;
+        left: 75px;
+    }
+}
+@media screen and (max-width: 1300px) {
+    #buttonForward {
+        position: relative;
+        right: 50px;
+    }
+    #buttonBack {
+        position: relative;
+        left: 50px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    #buttonForward {
+        position: relative;
+        right: 25px;
+    }
+    #buttonBack {
+        position: relative;
+        left: 25px;
+    }
+}
+@media screen and (max-width: 1100px) {
+    #buttonForward {
+        position: relative;
+        right: 0px;
+    }
+    #buttonBack {
+        position: relative;
+        left: 0px;
+    }
+}
+@media screen and (max-width: 1000px) {
+    #buttonForward {
+        margin-top: 10px;
+        position: relative;
+        left: 45%;
+    }
+    #buttonBack {
+        margin-bottom: 10px;
+        position: relative;
+        left: 42%;
+    }
+}
+@media screen and (max-width: 910px) {
+    .footWrapper {
+        height: 100px;
+    }
+    .contributors {
+        position: relative;
+        top: -30px;
+    }
+}
+@media screen and (max-width: 690px) {
+    .footWrapper {
+        height: 150px;
+    }
+    .contributors {
+        position: relative;
+        top: -30px;
+    }
+}
+
+
+
+
+
