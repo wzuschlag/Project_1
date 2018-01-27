@@ -1,20 +1,28 @@
+/*Body background styling*/
+body {
+    background-image: url(../images/background.png);
+}
+
+/*Nav Bar Styling*/
 .nav-wrapper, .nav-content {
     padding-left: 15px;
 }
+
 nav .input-field {
     height: 15%;
 }
+
+.nav-extended {
+    background-image: url(../images/top-image.png);
+}
+
 #globe { 
     font-size: 40px;
 }
 nav .brand-logo i, nav .brand-logo [class^="mdi-"], nav .brand-logo [class*="mdi-"], nav .brand-logo i.material-icons {
     margin-right: 3px;
 }
-body {
-/*  margin-left: 100px;
-    margin-right: 100px;*/
-    background-image: url(../images/globe.jpg);
-}
+
 #search {
     height: 40px;
     display: inline-block;
@@ -40,37 +48,31 @@ body {
     left: 30px;
     margin-bottom: -20px;
 }
+
+#searchDiv {
+    display: inline-block;
+}
+
+.recentSearches {
+    padding-top: 0px;
+    margin-top: -35px;
+    padding-bottom: 0px;
+}
+
+.dropdown-content {
+    font-size: 14px !important;
+}
+a.dropdown-button {
+    width: 200px;
+}
+input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+    width: 75% !important;
+}
+
+/*Photos and weather row styling*/
 .photoCarousel {
     margin-top: -10px;
     width: 50%;
-}
-#weatherTitle {
-    font-size: 28px;
-    font-weight: bold;
-/*  padding-right: 10px;*/
-    padding-bottom: 10px;
-    border-bottom: 1px solid white;
-/*  margin-bottom: -10px;*/
-/*  margin-top: -15px;*/
-}
-#weatherCond {
-    display: inline-block;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-bottom: -10px;
-}
-#weatherTemp {
-    display: inline-block;
-    margin-bottom: -10px;
-}
-#middle-panel {
-    
-    padding-bottom: 10px;
-}
-#map {
-    margin-top: -10px;
-    position: relative;
-    left: 10px;
 }
 .photoContainer {
     margin-left: 5px;
@@ -99,6 +101,7 @@ body {
     display: inline-block;
     padding: 3px;
 }
+
 #buttonBack {
     transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
@@ -109,15 +112,46 @@ body {
     display: inline-block;
     padding: 3px;
 }
-.dropdown-content {
-    font-size: 14px !important;
+
+.indicators{
+    visibility: hidden;
 }
-a.dropdown-button {
-    width: 200px;
+
+.weather {
+    text-align: center;
 }
-input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
-    width: 75% !important;
+
+#weatherTitle {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
 }
+
+#weatherCond {
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: -10px;
+    color: black;
+}
+#weatherTemp {
+    display: inline-block;
+    margin-bottom: -10px;
+    color: black;
+}
+
+#middle-panel {
+    padding-bottom: 10px;
+}
+
+#map {
+    margin-top: -10px;
+    position: relative;
+    left: 10px;
+}
+
+/*Styling for info and map card*/
+
 h5 {
     color: #ffb74d;
     font-size: 18px;
@@ -146,88 +180,152 @@ h6 {
     line-height: 80%;
     padding-left: 15px;
 }
-.indicators{
-    visibility: hidden;
+
+
+/*Styling for bottom wrapper*/
+.footWrapper {
+    background-image: url('../images/bottom-image.jpg')
 }
-@media screen and (max-width: 1500px) {
+
+/*Media Queries for getting proper alignment for mobile responsiveness*/
+
+@media screen and (max-width: 2000px) {
     #buttonForward {
         position: relative;
-        right: 100px;
+        right: 150px;
+        top: 100px;
     }
     #buttonBack {
         position: relative;
-        left: 100px;
+        left: 150px;
+        top: 100px;
     }
 }
+
 @media screen and (max-width: 1400px) {
     #buttonForward {
         position: relative;
-        right: 75px;
+        right: 125px;
+        top: 100px;
     }
     #buttonBack {
         position: relative;
-        left: 75px;
+        left: 125px;
+        top: 100px;
     }
 }
 @media screen and (max-width: 1300px) {
     #buttonForward {
         position: relative;
-        right: 50px;
+        right: 100px;
+        top: 100px;
     }
     #buttonBack {
         position: relative;
-        left: 50px;
+        left: 100px;
+        top: 100px;
     }
 }
 @media screen and (max-width: 1200px) {
     #buttonForward {
         position: relative;
-        right: 25px;
+        right: 100px;
+        top: 100px;
     }
     #buttonBack {
         position: relative;
-        left: 25px;
-    }
-}
-@media screen and (max-width: 1100px) {
-    #buttonForward {
-        position: relative;
-        right: 0px;
-    }
-    #buttonBack {
-        position: relative;
-        left: 0px;
+        left: 100px;
+        top: 100px;
     }
 }
 @media screen and (max-width: 1000px) {
     #buttonForward {
-        margin-top: 10px;
         position: relative;
-        left: 45%;
+        right: 75px;
+        top: 100px;
     }
     #buttonBack {
-        margin-bottom: 10px;
         position: relative;
-        left: 42%;
+        left: 75px;
+        top: 100px;
     }
 }
-@media screen and (max-width: 910px) {
-    .footWrapper {
-        height: 100px;
-    }
-    .contributors {
+
+@media screen and (max-width: 850px) {
+    #buttonForward {
         position: relative;
-        top: -30px;
+        right: 100px;
+        top: 90px;
+    }
+
+    #buttonBack {
+        position: relative;
+        left: 100px;
+        top: 90px;
     }
 }
-@media screen and (max-width: 690px) {
+
+@media screen and (max-width:750px) {
+    #buttonForward {
+        position: relative;
+        right: 100px;
+        top: 80px;
+    }
+
+    #buttonBack {
+        position: relative;
+        left: 100px;
+        top: 80px;
+    }
+}
+
+@media screen and (max-width:700px) {
+    #buttonForward {
+        position: relative;
+        right: 100px;
+        top: 70px;
+    }
+
+    #buttonBack {
+        position: relative;
+        left: 90px;
+        top: 70px;
+    }
+}
+
+/*@media screen and (max-width:550px) {
+    #buttonForward {
+        position: relative;
+        right: 100px;
+        top: 70px;
+    }
+
+    #buttonBack {
+        position: relative;
+        left: 80px;
+        top: 70px;
+    }
+}*/
+
+@media screen and (max-width:550px) {
+    #buttonForward {
+        position: relative;
+        right: 100px;
+        top: 60px;
+    }
+
+    #buttonBack {
+        position: relative;
+        left: 70px;
+        top: 60px;
+    }
+}
+
+@media screen and (max-width: 700px) {
     .footWrapper {
         height: 150px;
     }
-    .contributors {
-        position: relative;
-        top: -30px;
-    }
+    
 }
 
 

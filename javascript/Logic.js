@@ -1,3 +1,4 @@
+// Firebase set up and deployment
 var config = {
     apiKey: "AIzaSyDe26dXdinNMwrd5ZcMCF50NaHHplhHP0w",
     authDomain: "travelapp-7ed71.firebaseapp.com",
@@ -6,8 +7,12 @@ var config = {
     storageBucket: "travelapp-7ed71.appspot.com",
     messagingSenderId: "651038382322"
     };
+
 firebase.initializeApp(config);
+
 var database = firebase.database();
+
+// API Keys for use if daily search abilities are reached
 var geoplacesApiKey0 = 'AIzaSyBtFyKPzOmCiguFJEQNXfRdMsqIia2oqSk';
 var geoplacesApiKey1 = 'AIzaSyAGSfQ__issw6jvRIGyAspjxxwV53GTP5c';
 var geoplacesApiKey2 = 'AIzaSyBla269WqKcDmjRCj1rqyTCw88wSwMIgQs';
@@ -16,28 +21,52 @@ var geoplacesApiKey4 = 'AIzaSyDYDV-ay382NoDxM-WQTtSVzju6pp8v3yI';
 var geoplacesApiKey5 = 'AIzaSyAZEIrQAkq-XiUz7EvqcHi878-DUA2xCBM';
 var geoplacesApiKey6 = 'AIzaSyAtTcT_IofDsjFlCOzk6XQ3jP_YyQRplUI'
 var geoMapsEmbedApiKey = 'AIzaSyCN2Ot2OCVfI9m7dkS9oAR5mPgM6_sVS9M';
+
+// CORS Api for Google API work around
 var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
+
+// Default search for initial load
 var searchName = 'Minneapolis';
+
+// Search parameters allows
 var pointofInterestQuery = " point of interest";
 var restaurantQuery = " restaurant";
 var hotelQuery = " hotel";
+
+// API Key array and current index to be looped through in case of error
 var apiKeyArray = [geoplacesApiKey0, geoplacesApiKey1, geoplacesApiKey2, geoplacesApiKey3, geoplacesApiKey4, geoplacesApiKey5, geoplacesApiKey6];
 var currentIndex = 0;
 
 $(document).ready(function() {
+
+    // Initial load function using default search 
     grabGoogleData(searchName, pointofInterestQuery, apiKeyArray[currentIndex]);
-    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-    $('#modal1').modal();
-    $('#modal1').modal('open');
+    
+    // Initial modal open 
+    $('.modal').modal();
+    $('.modal').modal('open');
    
+    // Autocomplete option to initialize search, or if autocomplete fails the ability to manually enter search terms
     $('#search').keyup(function(event) {
           var searchStr = $(this).val();
           updateAutocomplete(searchStr);
+
+          if (event.keyCode === 13) {
+            searchName = $(this).val();
+            grabGoogleData(searchName, pointofInterestQuery, apiKeyArray[currentIndex])
+            $('#search').val("");
+          }
     });
+
+    // Initialize side menu
     $(".button-collapse").sideNav();
+
+    // Close side menu
     $('#closeMenu').on("click", function(event) {
         $(".button-collapse").sideNav('hide');
     });
+
+    // Functions for initializing viewing options on drop down menu
     $('#pointsofInterest').on("click", function(event) {
         grabGoogleData(searchName, pointofInterestQuery, apiKeyArray[currentIndex])
     });
@@ -47,6 +76,8 @@ $(document).ready(function() {
     $('#hotels').on("click", function(event) {
         grabGoogleData(searchName, hotelQuery, apiKeyArray[currentIndex])
     });
+
+    // Functions for initializing viewing options on side menu
     $('#pointsofInterestSideNav').on("click", function(event) {
         $(".button-collapse").sideNav('hide');
         grabGoogleData(searchName, pointofInterestQuery, apiKeyArray[currentIndex])
@@ -59,24 +90,60 @@ $(document).ready(function() {
         $(".button-collapse").sideNav('hide');
         grabGoogleData(searchName, hotelQuery, apiKeyArray[currentIndex])
     });
+
+    // Button functions for moving carousel and changing info and map cards
     $('#buttonForward').on("click", function(event) {
         $('.carousel').carousel('next');
         setTimeout(grabActiveImage, 300);
-    })
+    });
     $('#buttonBack').on("click", function(event) {
         $('.carousel').carousel('prev');
         setTimeout(grabActiveImage, 300);
-    })
+    });
+
+    // Firebase functions
+    var dataLoaded = false;
+
+    // Firebase function that grabs most recent child after initial load, once a new search term is completed 
     database.ref().on("child_added", function(childSnapshot) {
-    var recentSearches = $('<p>');
-    recentSearches.attr('id', 'recentSearches');
-    recentSearches.html("Recent Searches on TravelOn");
-    var recentCities = $('<p>');
-    var recentCities = childSnapshot.val().searchCity;
-    recentSearches.append(recentCities);
-    $('.recentSearches').append(recentSearches);
+
+        if (dataLoaded) {
+            $('.recentSearches').empty();
+            $('.recentSearches').html("Most recent search on TravelOn: ")
+            var newDiv = $('<div>');
+            newDiv.attr('id', 'searchDiv');
+            var recentCities = $('<p>');
+            recentCities.html(childSnapshot.val().searchCity);
+            newDiv.prepend(recentCities);
+            $('.recentSearches').append(newDiv);
+        }
     })
+
+    // Firebase function for intiial load only
+    database.ref().once("value", function(snapshot) {
+
+        var snapshotArray = []
+
+        snapshot.forEach(function(data) {
+            snapshotArray.push(data.val().searchCity)
+        })
+
+        $('.recentSearches').empty();
+        $('.recentSearches').html("Most recent search on TravelOn: ")
+        var newDiv = $('<div>');
+        newDiv.attr('id', 'searchDiv');
+        var recentCities = $('<p>');
+        recentCities.html(snapshotArray[snapshotArray.length - 1]);
+        newDiv.prepend(recentCities);
+        $('.recentSearches').append(newDiv);
+
+        dataLoaded = true
+
+    })
+
 });
+
+// Google API function 
 function grabGoogleData(location, query, apiKey) {
     $('.photoCarousel').empty();
     $('.info').empty();
@@ -93,19 +160,22 @@ function grabGoogleData(location, query, apiKey) {
          async: false,
          method:'GET'
      }).then(function(response) {
-         // Adding place of interest photos
+
          var resultList = response.results;
+
+         // If API Key does not work, will loop through the API Key index to find one that does
          if (resultList.length === 0) {
              currentIndex ++
              grabGoogleData(location, query, apiKeyArray[currentIndex]);
          }
+
+         // Only returning 10 values
          for (var i = 0; i < 10; i ++) {
             var photoReference = resultList[i].photos[0].photo_reference;
             var placeText = resultList[i].name;
             var placeRating = resultList[i].rating;
             
-            console.log(resultList[i]);
-            // Adding images in carousel
+            // Adding images to carousel with text 
             var newImage = $('<img>');
             var src = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=800&maxheight=500&photoreference=" + photoReference + "&key=" + apiKey;
             newImage.attr('src', src);
@@ -120,7 +190,7 @@ function grabGoogleData(location, query, apiKey) {
             newCarousel.append(newText);
             carousel.append(newCarousel);
             
-            // Adding info
+            // Adding info to info card
             var titleSub = ""
             if (query === " point of interest") {
                 titleSub = "Top Points of Interests in "
@@ -140,6 +210,8 @@ function grabGoogleData(location, query, apiKey) {
             newTitle.html(placeText);
             var newOpen = $('<h6>');
             newOpen.attr('id', 'newPlaceOpen')
+
+            // Option if place does not include hours 
             if (resultList[i].opening_hours) {
                 var placeOpen = resultList[i].opening_hours.open_now;
                 
@@ -162,27 +234,43 @@ function grabGoogleData(location, query, apiKey) {
             $('.info').append(newInfoDiv);
             counter ++;
          }
+
         counter = 0;
         $('.mapLocation').html("Map of " + location);
         $('.photoCarousel').append(carousel);
         $('.carousel.carousel-slider').carousel({fullWidth:true, indicators:false});
-        console.log('--------------------------------');
+
+        // Call active image and weather functions
         grabActiveImage();
         grabWeatherData();
-        database.ref().push({
-            searchCity: location,
-            dateAdded: firebase.database.ServerValue.TIMESTAMP
-        })
+
+        // Push search location into Firebase, only if not default search
+        if (searchName != "Minneapolis") {
+
+            var newCity= database.ref().push();
+
+            newCity.set({
+                searchCity: searchName
+            })
+        }
+
      });
 }
+
+// Function highlights information for current image being displayed and creates embedded Google Map with marker 
 function grabActiveImage() {
     $('#map').empty();
+    // Find parameters of carousel image
     $('.cityInfo').attr('style', "background-color: none")
     var activePhoto = $('a.carousel-item.active');
     var hrefValue = activePhoto[0].hash;
+    var textValue = activePhoto[0].id;
+
+    // Highlight info in card whose id matches the image href value
     var textAttr = $('.cityInfo[id="' + hrefValue + '"]');
     textAttr.attr('style', "background-color: rgba(77,167,203,1)");
-    var textValue = activePhoto[0].id;
+
+    // Create embedded map with marker for search location in image
     var newFrame = $('<iframe>');
     newFrame.attr('width', '95%');
     newFrame.attr('height', '500');
@@ -192,20 +280,28 @@ function grabActiveImage() {
     newFrame.attr('allowfullscreen');
     $('#map').append(newFrame);
 }
+
+// Function for autocomplete 
 function updateAutocomplete(searchStr) {
   var availableTags = {};
+  
   jQuery.getJSON("https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/autocomplete/json?key=" + "AIzaSyDfhVC4Hbd8rWHg1IrIONTu7BXot7liwq8" + "&input=" + searchStr)
     .done(function(response) {
-        for (var i=0; i < response.predictions.length; i++) {
-            var options = response.predictions[i].description;
-            availableTags[options]=null;
-        }
+
+            for (var i=0; i < response.predictions.length; i++) {
+                // Only return autocomplete suggestions that are cities or countries
+                if ( (response.predictions[i].types[0] === "locality") || (response.predictions[i].types[0] === "country") ) {
+                    var options = response.predictions[i].description;
+                    availableTags[options]=null;
+                }
+            }
+
         $('#search').autocomplete({
             data: availableTags,
             limit: 40, // The max amount of results that can be shown at once. Default: Infinity.
             minLength: 1,
           onAutocomplete: function(data) {
-            // Callback function when value is autocompleted
+            // Callback function when value is autocompleted, to complete search location
             search = String(data);
             searchString = search.split(",");
             searchName = searchString[0];
@@ -214,23 +310,28 @@ function updateAutocomplete(searchStr) {
           },
         });
     });
+
 }
+
+// Function to grab weather data of current search lcoation and display it
 function grabWeatherData () {
     $('.weather').empty();
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + searchName +
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + searchName +
     "&APPID=7aea8d220d0b2f4f285d3790fe8b6d9f";
     $.ajax({
     url: queryURL,
     method: "GET"
     }).done(function(response) {
-    
+        // Current weather conditions
         var currentWeather = response.weather[0].main;
+        // Convert current temp to nearest value in fahrenheit
         var currentTemp = Math.floor((response.main.temp * (9/5)) - 459.67);
         
+        // Append weather information to weather div
         var weatherDiv = $('<div>');
-        var title = $('<h5>');
+        var title = $('<h4>');
         title.attr('id', 'weatherTitle');
-        title.html("Current location: " + searchName );
+        title.html(searchName );
         var weather = $('<h6>');
         weather.attr('id', 'weatherCond');
         weather.html("Weather Conditions: " + currentWeather);
@@ -243,4 +344,3 @@ function grabWeatherData () {
         $('.weather').append(weatherDiv);
     });
 }
-
